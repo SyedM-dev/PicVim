@@ -236,6 +236,10 @@ function M.setup()
         keypress_state.zoom = keypress_state.zoom + 0.2
         schedule_redraw()
       end, { buffer = buf, noremap = true, silent = true })
+      vim.keymap.set("n", "+", function()
+        keypress_state.zoom = keypress_state.zoom + 0.2
+        schedule_redraw()
+      end, { buffer = buf, noremap = true, silent = true })
       vim.keymap.set("n", "-", function()
         keypress_state.zoom = keypress_state.zoom - 0.2
         schedule_redraw()
