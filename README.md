@@ -86,7 +86,7 @@ The plugin automatically activates for image files (.png, .jpg, .jpeg, .gif, .bm
 - [x] Allow panning across the image.
 - [x] Support image rotation.
 - [x] Add support for non-png raster images.
-- [ ] Add support for more svg files.
+- [ ] Add support for svg files.
 - [ ] Add support for ueberzugpp.
 - [ ] Make Keybinds configurable.
 - [ ] Expose functions to handle the images.
