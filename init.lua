@@ -139,18 +139,31 @@ function M.setup()
       if not vim.b.img then
         vim.b.img = Image:new(vim.fn.expand "%:p")
       end
-      local win = vim.api.nvim_get_current_win()
-      local window_height = vim.api.nvim_win_get_height(win)
-      local window_width = vim.api.nvim_win_get_width(win)
-      local MAX_OFFSET_X = (window_width * 10) - 150
-      local MIN_OFFSET_X = (-window_width * 10) + 150
-      local MAX_OFFSET_Y = (window_height * 23) - 150
-      local MIN_OFFSET_Y = (-window_height * 23) + 150
       vim.cmd "setlocal buftype=nofile"
       vim.cmd "setlocal nonumber"
       vim.cmd "setlocal norelativenumber"
       vim.cmd "setlocal modifiable"
       local buf = vim.api.nvim_get_current_buf()
+      -- local win = vim.api.nvim_get_current_win()
+      -- local window_height = vim.api.nvim_win_get_height(win)
+      -- local window_width = vim.api.nvim_win_get_width(win)
+      -- local border_top_bottom = string.rep("-", window_width - 3)
+      -- local border_sides = "|" .. string.rep(" ", window_width - 5) .. "|"
+      -- local message = " Welcome to PicVim! Displaying image: " .. vim.fn.expand "%:p"
+      -- local lines = {}
+      -- table.insert(lines, message)
+      -- table.insert(lines, border_top_bottom)
+      -- for _ = 1, window_height - 4 do
+      --   table.insert(lines, border_sides)
+      -- end
+      -- table.insert(lines, border_sides)
+      -- table.insert(lines, border_top_bottom)
+      -- vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+      -- vim.api.nvim_win_set_cursor(win, { 1, 0 })
+      vim.api.nvim_buf_set_lines(buf, 0, -1, false, {})
+      vim.cmd "setlocal nomodifiable"
+      vim.cmd "setlocal nowrap"
+      vim.cmd "setlocal nolist"
       local debounce_timer = nil
       local debounce_interval = 50
       local keypress_state = { o_x = 0, o_y = 0, zoom = 0, rotation = 0 }
@@ -160,6 +173,13 @@ function M.setup()
         end
         local image = vim.b.img
         setmetatable(image, Image)
+        local win = vim.api.nvim_get_current_win()
+        local window_height = vim.api.nvim_win_get_height(win)
+        local window_width = vim.api.nvim_win_get_width(win)
+        local MAX_OFFSET_X = (window_width * 10) - 150
+        local MIN_OFFSET_X = (-window_width * 10) + 150
+        local MAX_OFFSET_Y = (window_height * 23) - 150
+        local MIN_OFFSET_Y = (-window_height * 23) + 150
         image.properties.o_x = math.min(math.max(image.properties.o_x + keypress_state.o_x, MIN_OFFSET_X), MAX_OFFSET_X)
         image.properties.o_y = math.min(math.max(image.properties.o_y + keypress_state.o_y, MIN_OFFSET_Y), MAX_OFFSET_Y)
         image.properties.zoom = math.min(math.max(image.properties.zoom + keypress_state.zoom, 0.1), 5)
@@ -170,7 +190,6 @@ function M.setup()
         image:draw(x, y, window_width - 6, window_height - 1)
         vim.b.img = image
       end
-
       local function schedule_redraw()
         if debounce_timer then
           debounce_timer:stop()
@@ -182,19 +201,35 @@ function M.setup()
         end, debounce_interval)
       end
       vim.keymap.set("n", "<Left>", function()
-        keypress_state.o_x = keypress_state.o_x + 30
-        schedule_redraw()
-      end, { buffer = buf, noremap = true, silent = true })
-      vim.keymap.set("n", "<Right>", function()
         keypress_state.o_x = keypress_state.o_x - 30
         schedule_redraw()
       end, { buffer = buf, noremap = true, silent = true })
+      vim.keymap.set("n", "<Right>", function()
+        keypress_state.o_x = keypress_state.o_x + 30
+        schedule_redraw()
+      end, { buffer = buf, noremap = true, silent = true })
       vim.keymap.set("n", "<Down>", function()
-        keypress_state.o_y = keypress_state.o_y - 30
+        keypress_state.o_y = keypress_state.o_y + 30
         schedule_redraw()
       end, { buffer = buf, noremap = true, silent = true })
       vim.keymap.set("n", "<Up>", function()
+        keypress_state.o_y = keypress_state.o_y - 30
+        schedule_redraw()
+      end, { buffer = buf, noremap = true, silent = true })
+      vim.keymap.set("n", "h", function()
+        keypress_state.o_x = keypress_state.o_x - 30
+        schedule_redraw()
+      end, { buffer = buf, noremap = true, silent = true })
+      vim.keymap.set("n", "l", function()
+        keypress_state.o_x = keypress_state.o_x + 30
+        schedule_redraw()
+      end, { buffer = buf, noremap = true, silent = true })
+      vim.keymap.set("n", "j", function()
         keypress_state.o_y = keypress_state.o_y + 30
+        schedule_redraw()
+      end, { buffer = buf, noremap = true, silent = true })
+      vim.keymap.set("n", "k", function()
+        keypress_state.o_y = keypress_state.o_y - 30
         schedule_redraw()
       end, { buffer = buf, noremap = true, silent = true })
       vim.keymap.set("n", "=", function()
