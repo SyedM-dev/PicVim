@@ -8,7 +8,11 @@ PicVim is a Neovim plugin that allows you to view and interact with images direc
 
 ## Demo
 
-https://raw.githubusercontent.com/Toprun123/picvim/refs/heads/main/demo.mp4
+
+
+https://github.com/user-attachments/assets/b8279faa-4e91-4fda-880b-4d4d7cab117d
+
+
 
 ## Usage
 
