@@ -52,7 +52,7 @@ If you use [lazy.nvim](https://github.com/folke/lazy.nvim), you can install PicV
 
 ## 🔧 Setup
 
-To activate the plugin, add the following to your init.lua configuration file (not needed if using lazy.nvim):
+To activate the plugin, add the following to your init.lua configuration file:
 
 ```lua
 require'picvim'.setup()
