@@ -80,6 +80,17 @@ The plugin automatically activates for image files (.png, .jpg, .jpeg, .gif, .bm
 `ImageMagick` for image manipulation.
 `Neovim` 0.5.0 or higher.
 
+##  TODO:
+
+- [x] Allow zooming image.
+- [x] Allow panning across the image.
+- [x] Support image rotation.
+- [x] Add support for non-png raster images.
+- [ ] Add support for more svg files.
+- [ ] Add support for ueberzugpp.
+- [ ] Make Keybinds configurable.
+- [ ] Expose functions to handle the images.
+
 ## 📄 License
 
 This project is licensed under the MIT License – see the LICENSE file for details.
