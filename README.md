@@ -14,6 +14,7 @@ PicVim is a Neovim plugin that allows you to view and interact with images direc
 ### ⚠️  Important Notes:
 - 🚫 **Not a replacement for `image.nvim`:** This plugin can't render images in `README.md` files.
 - 🔧 **Early Development:** This is a work in progress, so expect some bugs. Contributions are welcome!
+- 🚫 **Only support for kitty for now:** Only supports kitty graphics but will soon support ueberzugpp too.
 
 ---
 
@@ -34,7 +35,6 @@ To use PicVim, simply open an image file in Neovim and the image will be display
 - Rotate the image with configurable keybindings.
 - Pan the image using arrow keys or specific keybindings.
 - Automatically scale and adjust images for optimal viewing.
-- For now it only supports Kitty Graphics Protocol, but will soon support ueberzugpp too.
 
 ## ⚙️  Installation
 
