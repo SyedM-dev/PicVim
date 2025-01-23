@@ -160,7 +160,7 @@ function M.setup()
       -- table.insert(lines, border_top_bottom)
       -- vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
       -- vim.api.nvim_win_set_cursor(win, { 1, 0 })
-      vim.api.nvim_buf_set_lines(buf, 0, -1, false, {})
+      vim.api.nvim_buf_set_lines(buf, 0, -1, false, { " Welcome to PicVim! Displaying image: " .. vim.fn.expand "%:p" })
       vim.cmd "setlocal nomodifiable"
       vim.cmd "setlocal nowrap"
       vim.cmd "setlocal nolist"
