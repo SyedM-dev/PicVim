@@ -91,6 +91,3 @@ The plugin automatically activates for image files (.png, .jpg, .jpeg, .gif, .bm
 - [ ] Make Keybinds configurable.
 - [ ] Expose functions to handle the images.
 
-## 📄 License
-
-This project is licensed under the MIT License – see the LICENSE file for details.
