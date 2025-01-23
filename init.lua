@@ -1,5 +1,7 @@
 local M = {}
 
+local id_counter = 0
+
 local stdout = vim.loop.new_tty(1, false)
 if not stdout then
   error "failed to open stdout"
@@ -14,9 +16,11 @@ local Image = {}
 Image.__index = Image
 
 function Image:new(filepath)
+  id_counter = id_counter + 1
   local obj = setmetatable({}, self)
   obj.filepath_o = filepath
   obj.filepath = filepath
+  obj.id = id_counter
   obj.properties = {}
   obj.properties.zoom = 0.9
   obj.properties.o_x = 0
@@ -40,14 +44,23 @@ function Image:draw(x, y, w, h)
   local encoded_data = vim.base64.encode(data):gsub("%/", "/")
   local pos = 1
   local chunk_size = 4096
-  stdout:write "\27_Ga=d\27\\"
   stdout:write("\27[" .. x + 2 .. ";" .. y + 4 .. "H")
   while pos <= #encoded_data do
     local chunk = encoded_data:sub(pos, pos + chunk_size - 1)
     pos = pos + chunk_size
     local m = (pos <= #encoded_data) and "1" or "0"
     local cmd
-    cmd = "\27_Ga=T,r=" .. h .. ",c=" .. w .. ",C=1,f=100,m=" .. m .. ";" .. chunk .. "\27\\"
+    cmd = "\27_Ga=T,i=10,p="
+      .. self.id
+      .. ",q=1,r="
+      .. h
+      .. ",c="
+      .. w
+      .. ",C=1,f=100,m="
+      .. m
+      .. ";"
+      .. chunk
+      .. "\27\\"
     stdout:write(cmd)
     uv.sleep(1)
   end
@@ -63,48 +76,30 @@ function Image:rescale()
   local w, h = self.properties.w, self.properties.h
   local o_x, o_y = self.properties.o_x, self.properties.o_y
   local rotation = self.properties.rotation
-  local temp_file = "/tmp/gg_1.png"
+  local temp_file = "/tmp/scaled" .. self.id .. ".png"
   if vim.fn.filereadable(temp_file) == 1 then
     vim.fn.delete(temp_file)
   end
-  local crop_offset_x = o_x >= 0 and "+" .. o_x or tostring(o_x)
-  local crop_offset_y = o_y >= 0 and "+" .. o_y or tostring(o_y)
-  local gravity = "center"
-  if o_x > 0 and o_y > 0 then
-    gravity = "northwest"
-  elseif o_x < 0 and o_y > 0 then
-    gravity = "northeast"
-  elseif o_x > 0 and o_y < 0 then
-    gravity = "southwest"
-  elseif o_x < 0 and o_y < 0 then
-    gravity = "southeast"
-  elseif o_x > 0 then
-    gravity = "west"
-  elseif o_x < 0 then
-    gravity = "east"
-  elseif o_y > 0 then
-    gravity = "north"
-  elseif o_y < 0 then
-    gravity = "south"
-  end
+  local o_x_str = o_x >= 0 and "+" .. o_x or tostring(o_x)
+  local o_y_str = o_y >= 0 and "+" .. o_y or tostring(o_y)
   local r_w, r_h = w * self.properties.zoom * 10, h * self.properties.zoom * 23
-  local cmd = string.format(
-    "magick %s -resize %dx%d -background none -rotate %d -gravity center -background none -extent %dx%d -gravity center -crop %dx%d%s%s +repage -gravity %s -background none -extent %dx%d %s",
-    self.filepath,
-    r_w,
-    r_h,
-    rotation,
-    w * 10,
-    h * 23,
-    w * 10,
-    h * 23,
-    crop_offset_x,
-    crop_offset_y,
-    gravity,
-    w * 10,
-    h * 23,
-    temp_file
-  )
+  local cmd = "magick "
+    .. self.filepath
+    .. " -resize "
+    .. r_w
+    .. "x"
+    .. r_h
+    .. " -background none -rotate "
+    .. rotation
+    .. " -gravity center -background none "
+    .. "-extent "
+    .. (w * 10)
+    .. "x"
+    .. (h * 23)
+    .. o_x_str
+    .. o_y_str
+    .. " "
+    .. temp_file
   local result = vim.fn.system(cmd)
   if vim.v.shell_error == 0 then
     self.filepath = temp_file
@@ -115,10 +110,7 @@ function Image:rescale()
 end
 
 function Image:pngify()
-  local temp_file = "/tmp/gg.png"
-  if vim.fn.filereadable(temp_file) == 1 then
-    vim.fn.delete(temp_file)
-  end
+  local temp_file = "/tmp/pngify" .. self.id .. ".png"
   local file_type = vim.fn.fnamemodify(self.filepath_o, ":e")
   local cmd
   if file_type == "png" then
@@ -126,13 +118,14 @@ function Image:pngify()
     return
   end
   if file_type == "gif" then
-    cmd = string.format("magick %s[0] %s", self.filepath_o, temp_file)
+    cmd = "magick " .. self.filepath_o .. "[0] " .. temp_file
   else
-    cmd = string.format("magick %s %s", self.filepath_o, temp_file)
+    cmd = "magick " .. self.filepath_o .. " " .. temp_file
   end
   local result = vim.fn.system(cmd)
   if vim.v.shell_error == 0 then
     self.filepath = temp_file
+    self.filepath_o = temp_file
   else
     vim.api.nvim_err_writeln("Error converting image: " .. result)
     self.filepath = ""
@@ -183,8 +176,8 @@ function M.setup()
           return
         end
         local image = vim.b.img
-        if image.properties.zoom < 1 then
-          image.properties.zoom = math.min(image.properties.zoom + 0.2, 1)
+        if image.properties.zoom < 5 then
+          image.properties.zoom = math.min(image.properties.zoom + 0.2, 5)
           vim.b.img = image
           redraw()
         end
