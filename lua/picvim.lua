@@ -64,8 +64,7 @@ function Image:draw(x, y, w, h)
 		stdout:write(cmd)
 		uv.sleep(1)
 	end
-	stdout:write("\x1b[H")
-	vim.cmd("redraw")
+	stdout:write("\27[" .. x + 1 .. ";" .. y + 3 .. "H")
 end
 
 function Image:unload()
@@ -144,29 +143,7 @@ function M.setup()
 			vim.cmd("setlocal norelativenumber")
 			vim.cmd("setlocal modifiable")
 			local buf = vim.api.nvim_get_current_buf()
-			-- local win = vim.api.nvim_get_current_win()
-			-- local window_height = vim.api.nvim_win_get_height(win)
-			-- local window_width = vim.api.nvim_win_get_width(win)
-			-- local border_top_bottom = string.rep("-", window_width - 3)
-			-- local border_sides = "|" .. string.rep(" ", window_width - 5) .. "|"
-			-- local message = " Welcome to PicVim! Displaying image: " .. vim.fn.expand "%:p"
-			-- local lines = {}
-			-- table.insert(lines, message)
-			-- table.insert(lines, border_top_bottom)
-			-- for _ = 1, window_height - 4 do
-			--   table.insert(lines, border_sides)
-			-- end
-			-- table.insert(lines, border_sides)
-			-- table.insert(lines, border_top_bottom)
-			-- vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
-			-- vim.api.nvim_win_set_cursor(win, { 1, 0 })
-			vim.api.nvim_buf_set_lines(
-				buf,
-				0,
-				-1,
-				false,
-				{ " Welcome to PicVim! Displaying image: " .. vim.fn.expand("%:p") }
-			)
+			vim.api.nvim_buf_set_lines(buf, 0, -1, false, {})
 			vim.cmd("setlocal nomodifiable")
 			vim.cmd("setlocal nowrap")
 			vim.cmd("setlocal nolist")
@@ -275,7 +252,7 @@ function M.setup()
 			redraw()
 		end,
 	})
-	vim.api.nvim_create_autocmd("VimResized", {
+	vim.api.nvim_create_autocmd("WinResized", {
 		pattern = "*.png,*.jpg,*.jpeg,*.gif,*.bmp",
 		callback = function()
 			if not vim.b.img then
