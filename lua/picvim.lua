@@ -252,7 +252,7 @@ function M.setup()
 			redraw()
 		end,
 	})
-	vim.api.nvim_create_autocmd("WinResized", {
+	vim.api.nvim_create_autocmd("VimResized", {
 		pattern = "*.png,*.jpg,*.jpeg,*.gif,*.bmp",
 		callback = function()
 			if not vim.b.img then
