@@ -21,8 +21,7 @@ https://github.com/user-attachments/assets/b8279faa-4e91-4fda-880b-4d4d7cab117d
 
 ### ⚠️  Notes:
 - 🔧 **Early Development:** This is a work in progress, so expect some bugs. Contributions are welcome!
-- 🚫 **Not a replacement for `image.nvim`:** This plugin can't render images in `README.md` files.
-- **Only support for kitty:** Only supports kitty graphics.
+- **Only support for kitty:** Only supports kitty graphics protocol (so should work with kitty and wezterm).
 
 
 ## 📖 Usage
@@ -99,9 +98,9 @@ The plugin automatically activates for image files (.png, .jpg, .jpeg, .gif, .bm
 
 ## 📦 Dependencies
 
-`ImageMagick` for image manipulation.
-`Neovim` 0.5.0 or higher.
-`Kitty` for displaying the image.
+- `ImageMagick` for image manipulation.
+- `Neovim` 0.5.0 or higher.
+- `Kitty` for displaying the image.
 
 ##  TODO:
 
