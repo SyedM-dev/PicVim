@@ -54,9 +54,9 @@ The plugin can be configured using:
       }
   })
 <
-|-------------------------------------------------------------------------|
+|+-------------------------+------------------+--------------------------+|
 | Options within `keymap`   | Default Value    | Description              |
-|-------------------------------------------------------------------------|
+|+-------------------------+------------------+--------------------------+|
 | `move_left`               | `{"<Left>", "h"}`  | Moves the image left     |
 | `move_right`              | `{"<Right>", "l"}` | Moves the image right    |
 | `move_down`               | `{"<Down>", "j"}`  | Moves the image down     |
@@ -67,7 +67,7 @@ The plugin can be configured using:
 | `rotate_counterclockwise` | `"T"`              | Rotates counterclockwise |
 | `reset`                   | `"o"`              | Resets the image         |
 | `rerender`                | `"r"`              | Rerenders the image      |
-|-------------------------------------------------------------------------|
+|+-------------------------+------------------+--------------------------+|
 
 ==============================================================================
 
