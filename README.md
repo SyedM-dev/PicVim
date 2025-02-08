@@ -83,7 +83,7 @@ require'picvim'.setup({
 
 The plugin automatically activates for image files (.png, .jpg, .jpeg, .gif, .bmp) upon opening. It sets the buffer to a "non-file" type to display the image correctly.
 
-## ⌨️  DefaultKeybindings
+## ⌨️  Default Keybindings
 
     h, Left Arrow – Pan left.
     l, Right Arrow – Pan right.
