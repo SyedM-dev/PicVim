@@ -50,7 +50,7 @@ If you use [lazy.nvim](https://github.com/folke/lazy.nvim), you can install PicV
 
 ```lua
 {
-    "Toprun123/picvim",
+    "Toprun123/PicVim",
     config = function()
         require'picvim'.setup()
     end,
