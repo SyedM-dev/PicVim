@@ -1,91 +1,106 @@
-*picvim.txt*    Plugin documentation for picvim
+*picvim*    Plugin documentation for picvim
 
 ==============================================================================
-NAME
-    picvim - A Neovim plugin for viewing and manipulating images.
+INDEX
+  |picvim|
+  |NAME|
+  |SYNOPSIS|
+  |INSTALLATION|
+  |CONFIGURATION|
+  |USAGE|
+  |HELP|
 
 ==============================================================================
-SYNOPSIS
-    lua require'picvim'.setup({ options })
-
-    Configurable key mappings for image navigation and manipulation.
+*NAME*
+picvim - A Neovim plugin for viewing and manipulating images.
 
 ==============================================================================
-INSTALLATION
-    Use your preferred plugin manager, e.g., with lazy.nvim:
+*SYNOPSIS*
 
-    ```lua
-    {
-        'yourusername/picvim',
-        config = function()
-            require'picvim'.setup({
-                keymap = {
-                    move_left = { "<Left>", "h" },
-                    move_right = { "<Right>", "l" },
-                    move_down = { "<Down>", "j" },
-                    move_up = { "<Up>", "k" },
-                    zoom_in = { "=", "+" },
-                    zoom_out = { "-", "_" },
-                    rotate_clockwise = "t",
-                    rotate_counterclockwise = "T",
-                    reset = "o",
-                    rerender = "r",
-                }
-            })
-        end
-    }
-    ```
+PicVim is a Neovim plugin that allows you to view and manipulate images in a
+Neovim buffer. It also provides configurable key mappings for image navigation
+and manipulation.
+
+> lua require'picvim'.setup({ keymap = { ... } })
+<
 
 ==============================================================================
-CONFIGURATION
+*INSTALLATION*
 
-    The plugin can be configured using:
+Use your preferred plugin manager, e.g., with lazy.nvim:
 
-    ```lua
-    require'picvim'.setup({
-        keymap = {
-            move_left = { "<Left>", "h" },    -- Pan left
-            move_right = { "<Right>", "l" },  -- Pan right
-            move_down = { "<Down>", "j" },    -- Pan down
-            move_up = { "<Up>", "k" },        -- Pan up
-            zoom_in = { "=", "+" },           -- Zoom in
-            zoom_out = { "-", "_" },          -- Zoom out
-            rotate_clockwise = "t",           -- Rotate clockwise
-            rotate_counterclockwise = "T",    -- Rotate counterclockwise
-            reset = "o",                      -- Reset image
-            rerender = "r",                   -- Rerender image
-        }
-    })
-    ```
-
-    | Options within `keymap`    | Default Value           | Description                        |
-    |----------------------------|-------------------------|------------------------------------|
-    | `move_left`                | `{"<Left>", "h"}`       | Moves the image left               |
-    | `move_right`               | `{"<Right>", "l"}`      | Moves the image right              |
-    | `move_down`                | `{"<Down>", "j"}`       | Moves the image down               |
-    | `move_up`                  | `{"<Up>", "k"}`         | Moves the image up                 |
-    | `zoom_in`                  | `{"=", "+"}`            | Zooms into the image               |
-    | `zoom_out`                 | `{"-", "_"}`            | Zooms out of the image             |
-    | `rotate_clockwise`         | `"t"`                   | Rotates the image clockwise        |
-    | `rotate_counterclockwise`  | `"T"`                   | Rotates the image counterclockwise |
-    | `reset`                    | `"o"`                   | Resets the image                   |
-    | `rerender`                 | `"r"`                   | Rerenders the image                |
+> {
+>     'Toprun123/PicVim',
+>     config = function()
+>         require'picvim'.setup({
+>             keymap = {                            -- Default keymaps
+>                 move_left = { "<Left>", "h" },    -- Pan left
+>                 move_right = { "<Right>", "l" },  -- Pan right
+>                 move_down = { "<Down>", "j" },    -- Pan down
+>                 move_up = { "<Up>", "k" },        -- Pan up
+>                 zoom_in = { "=", "+" },           -- Zoom in
+>                 zoom_out = { "-", "_" },          -- Zoom out
+>                 rotate_clockwise = "t",           -- Rotate clockwise by 30 degrees
+>                 rotate_counterclockwise = "T",    -- Rotate counterclockwise by 30 degrees
+>                 reset = "o",                      -- Reset image
+>                 rerender = "r",                   -- Rerender image
+>             }
+>         })
+>     end
+> }
+<
 
 ==============================================================================
-USAGE
+*CONFIGURATION*
+
+The plugin can be configured using:
+
+> require'picvim'.setup({
+>     keymap = {
+>         move_left = { "<Left>", "h" },    -- Pan left
+>         move_right = { "<Right>", "l" },  -- Pan right
+>         move_down = { "<Down>", "j" },    -- Pan down
+>         move_up = { "<Up>", "k" },        -- Pan up
+>         zoom_in = { "=", "+" },           -- Zoom in
+>         zoom_out = { "-", "_" },          -- Zoom out
+>         rotate_clockwise = "t",           -- Rotate clockwise
+>         rotate_counterclockwise = "T",    -- Rotate counterclockwise
+>         reset = "o",                      -- Reset image
+>         rerender = "r",                   -- Rerender image
+>     }
+> })
+<
+
+|-------------------------------------------------------------------------|
+| Options within `keymap`   | Default Value    | Description              |
+|-------------------------------------------------------------------------|
+| `move_left`               | `{"<Left>", "h"}`  | Moves the image left     |
+| `move_right`              | `{"<Right>", "l"}` | Moves the image right    |
+| `move_down`               | `{"<Down>", "j"}`  | Moves the image down     |
+| `move_up`                 | `{"<Up>", "k"}`    | Moves the image up       |
+| `zoom_in`                 | `{"=", "+"}`       | Zooms into the image     |
+| `zoom_out`                | `{"-", "_"}`       | Zooms out of the image   |
+| `rotate_clockwise`        | `"t"`              | Rotates clockwise        |
+| `rotate_counterclockwise` | `"T"`              | Rotates counterclockwise |
+| `reset`                   | `"o"`              | Resets the image         |
+| `rerender`                | `"r"`              | Rerenders the image      |
+|-------------------------------------------------------------------------|
+
+==============================================================================
+*USAGE*
 
 1. Open an image file in Neovim.
-2. Use the configured keymaps to move, zoom, or rotate the image.
+2. Use the configured (or default) keymaps to move, zoom, or rotate the image.
 3. Press `o` to reset the image to its original state.
 4. Press `r` to force a re-render.
 
 ==============================================================================
-HELP
+*HELP*
 
 To view this help file inside Neovim, use:
 
-    :help picvim
+> :h picvim
+<
 
 ==============================================================================
-
-*EOF*
+vim:tw=78:ts=4:ft=help:norl:ft=help
