@@ -8,30 +8,16 @@ PicVim is a Neovim plugin that allows you to view and interact with images direc
 
 ---
 
-# Index
+### Key Features:
+- 🚀 **Quick Image Viewing:** View images directly in Neovim.
+- 🔄 **Basic Image Interaction:** Zoom, rotate, and pan.
+- 🌐 **Multi-format Support:** Works with PNG, JPG, GIF, BMP, and more.
 
-3. [Demo](#demo)
-2. [Key Features](#key-features)
-1. [Project Status and Notes](#notes)
-4. [Usage](#usage)
-5. [Features](#features)
-6. [Installation](#installation)
-7. [Setup](#setup)
-8. [Auto-commands](#autocommands)
-9. [Keybindings](#keybindings)
-10. [Dependencies](#dependencies)
-11. [TODO List](#todo)
 
 ## Demo
 
 
 https://github.com/user-attachments/assets/b8279faa-4e91-4fda-880b-4d4d7cab117d
-
-
-### Key Features:
-- 🚀 **Quick Image Viewing:** View images directly in Neovim.
-- 🔄 **Basic Image Interaction:** Zoom, rotate, and pan.
-- 🌐 **Multi-format Support:** Works with PNG, JPG, GIF, BMP, and more.
 
 
 ### ⚠️  Notes:
