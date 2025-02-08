@@ -131,7 +131,8 @@ function Image:pngify()
 	end
 end
 
-function M.setup()
+function M.setup(config)
+	local opts = config or {}
 	vim.api.nvim_create_autocmd("BufEnter", {
 		pattern = "*.png,*.jpg,*.jpeg,*.gif,*.bmp",
 		callback = function()
@@ -185,69 +186,72 @@ function M.setup()
 					debounce_timer = nil
 				end, debounce_interval)
 			end
-			vim.keymap.set("n", "<Left>", function()
-				keypress_state.o_x = keypress_state.o_x - 30
-				schedule_redraw()
-			end, { buffer = buf, noremap = true, silent = true })
-			vim.keymap.set("n", "<Right>", function()
-				keypress_state.o_x = keypress_state.o_x + 30
-				schedule_redraw()
-			end, { buffer = buf, noremap = true, silent = true })
-			vim.keymap.set("n", "<Down>", function()
-				keypress_state.o_y = keypress_state.o_y + 30
-				schedule_redraw()
-			end, { buffer = buf, noremap = true, silent = true })
-			vim.keymap.set("n", "<Up>", function()
-				keypress_state.o_y = keypress_state.o_y - 30
-				schedule_redraw()
-			end, { buffer = buf, noremap = true, silent = true })
-			vim.keymap.set("n", "h", function()
-				keypress_state.o_x = keypress_state.o_x - 30
-				schedule_redraw()
-			end, { buffer = buf, noremap = true, silent = true })
-			vim.keymap.set("n", "l", function()
-				keypress_state.o_x = keypress_state.o_x + 30
-				schedule_redraw()
-			end, { buffer = buf, noremap = true, silent = true })
-			vim.keymap.set("n", "j", function()
-				keypress_state.o_y = keypress_state.o_y + 30
-				schedule_redraw()
-			end, { buffer = buf, noremap = true, silent = true })
-			vim.keymap.set("n", "k", function()
-				keypress_state.o_y = keypress_state.o_y - 30
-				schedule_redraw()
-			end, { buffer = buf, noremap = true, silent = true })
-			vim.keymap.set("n", "=", function()
-				keypress_state.zoom = keypress_state.zoom + 0.2
-				schedule_redraw()
-			end, { buffer = buf, noremap = true, silent = true })
-			vim.keymap.set("n", "+", function()
-				keypress_state.zoom = keypress_state.zoom + 0.2
-				schedule_redraw()
-			end, { buffer = buf, noremap = true, silent = true })
-			vim.keymap.set("n", "-", function()
-				keypress_state.zoom = keypress_state.zoom - 0.2
-				schedule_redraw()
-			end, { buffer = buf, noremap = true, silent = true })
-			vim.keymap.set("n", "t", function()
-				keypress_state.rotation = keypress_state.rotation + 30
-				schedule_redraw()
-			end, { buffer = buf, noremap = true, silent = true })
-			vim.keymap.set("n", "T", function()
-				keypress_state.rotation = keypress_state.rotation - 30
-				schedule_redraw()
-			end, { buffer = buf, noremap = true, silent = true })
-			vim.keymap.set("n", "o", function()
-				local image = vim.b.img
-				image.properties.o_x = 0
-				image.properties.o_y = 0
-				image.properties.rotation = 0
-				vim.b.img = image
-				redraw()
-			end, { buffer = buf, noremap = true, silent = true })
-			vim.keymap.set("n", "r", function()
-				redraw()
-			end, { buffer = buf, noremap = true, silent = true })
+			local keymaps = {
+				move_left = { "<Left>", "h" },
+				move_right = { "<Right>", "l" },
+				move_down = { "<Down>", "j" },
+				move_up = { "<Up>", "k" },
+				zoom_in = { "=", "+" },
+				zoom_out = { "-", "_" },
+				rotate_clockwise = "t",
+				rotate_counterclockwise = "T",
+				reset = "o",
+				rerender = "r",
+			}
+			local actions = {
+				move_left = function()
+					keypress_state.o_x = keypress_state.o_x - 30
+					schedule_redraw()
+				end,
+				move_right = function()
+					keypress_state.o_x = keypress_state.o_x + 30
+					schedule_redraw()
+				end,
+				move_down = function()
+					keypress_state.o_y = keypress_state.o_y + 30
+					schedule_redraw()
+				end,
+				move_up = function()
+					keypress_state.o_y = keypress_state.o_y - 30
+					schedule_redraw()
+				end,
+				zoom_in = function()
+					keypress_state.zoom = keypress_state.zoom + 0.2
+					schedule_redraw()
+				end,
+				zoom_out = function()
+					keypress_state.zoom = keypress_state.zoom - 0.2
+					schedule_redraw()
+				end,
+				rotate_clockwise = function()
+					keypress_state.rotation = keypress_state.rotation + 30
+					schedule_redraw()
+				end,
+				rotate_counterclockwise = function()
+					keypress_state.rotation = keypress_state.rotation - 30
+					schedule_redraw()
+				end,
+				reset = function()
+					local image = vim.b.img
+					image.properties.o_x = 0
+					image.properties.o_y = 0
+					image.properties.rotation = 0
+					vim.b.img = image
+					redraw()
+				end,
+				rerender = function()
+					redraw()
+				end,
+			}
+			for action, default_keys in pairs(keymaps) do
+				local keys = opts.keymap and opts.keymap[action] or default_keys
+				if type(keys) ~= "table" then
+					keys = { keys }
+				end
+				for _, key in ipairs(keys) do
+					vim.keymap.set("n", key, actions[action], { buffer = buf, noremap = true, silent = true })
+				end
+			end
 			vim.b.no_git_diff = true
 			redraw()
 		end,

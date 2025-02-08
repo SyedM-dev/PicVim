@@ -48,6 +48,7 @@ Use your prefferred package manager to install PicVim.
 
 If you use [lazy.nvim](https://github.com/folke/lazy.nvim), you can install PicVim by adding the following to your configuration:
 
+
 ```lua
 {
     "Toprun123/picvim",
@@ -57,26 +58,40 @@ If you use [lazy.nvim](https://github.com/folke/lazy.nvim), you can install PicV
 },
 ```
 
-## 🔧 Setup
+## 🔧 Setup and Configuration
 
-To activate the plugin, add the following to your init.lua configuration file:
+To configure the plugin, add the following to your init.lua or any other configuration file:
+You can set custom keymaps using the `keymap` option.
 
 ```lua
-require'picvim'.setup()
+require'picvim'.setup({
+    keymap = {                            -- Default keymaps
+        move_left = { "<Left>", "h" },    -- Pan left
+        move_right = { "<Right>", "l" },  -- Pan right
+        move_down = { "<Down>", "j" },    -- Pan down
+        move_up = { "<Up>", "k" },        -- Pan up
+        zoom_in = { "=", "+" },           -- Zoom in
+        zoom_out = { "-", "_" },          -- Zoom out
+        rotate_clockwise = "t",           -- Rotate clockwise by 30 degrees
+        rotate_counterclockwise = "T",    -- Rotate counterclockwise by 30 degrees
+        reset = "o",                      -- Reset image
+        rerender = "r",                   -- Rerender image
+    }
+})
 ```
 
 ## 🛠️ Autocommands
 
 The plugin automatically activates for image files (.png, .jpg, .jpeg, .gif, .bmp) upon opening. It sets the buffer to a "non-file" type to display the image correctly.
 
-## ⌨️  Keybindings
+## ⌨️  DefaultKeybindings
 
     h, Left Arrow – Pan left.
     l, Right Arrow – Pan right.
     j, Down Arrow – Pan down.
     k, Up Arrow – Pan up.
     =, + – Zoom in.
-    - – Zoom out.
+    -, _ – Zoom out.
     t – Rotate clockwise (30 degrees).
     T – Rotate counterclockwise (30 degrees).
     o – Reset image position and rotation.
@@ -94,7 +109,7 @@ The plugin automatically activates for image files (.png, .jpg, .jpeg, .gif, .bm
 - [x] Allow panning across the image.
 - [x] Support image rotation.
 - [x] Add support for non-png raster images.
+- [x] Make Keybinds configurable.
 - [ ] Add support for svg files.
-- [ ] Make Keybinds configurable.
 - [ ] Expose functions to handle the images.
 
