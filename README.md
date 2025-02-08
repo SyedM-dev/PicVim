@@ -110,5 +110,6 @@ The plugin automatically activates for image files (.png, .jpg, .jpeg, .gif, .bm
 - [x] Add support for non-png raster images.
 - [x] Make Keybinds configurable.
 - [ ] Add support for svg files.
+- [ ] Add config for filetypes to work with.
 - [ ] Expose functions to handle the images.
 
