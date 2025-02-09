@@ -85,16 +85,19 @@ The plugin automatically activates for image files (.png, .jpg, .jpeg, .gif, .bm
 
 ## ⌨️  Default Keybindings
 
-    h, Left Arrow – Pan left.
-    l, Right Arrow – Pan right.
-    j, Down Arrow – Pan down.
-    k, Up Arrow – Pan up.
-    =, + – Zoom in.
-    -, _ – Zoom out.
-    t – Rotate clockwise (30 degrees).
-    T – Rotate counterclockwise (30 degrees).
-    o – Reset image position and rotation.
-    r – Rerender the image.
+| Options within `keymap`     | Default Value         | Description              |
+|-----------------------------|-----------------------|--------------------------|
+| `move_left`                 | `{"<Left>", "h"}`     | Moves the image left     |
+| `move_right`                | `{"<Right>", "l"}`    | Moves the image right    |
+| `move_down`                 | `{"<Down>", "j"}`     | Moves the image down     |
+| `move_up`                   | `{"<Up>", "k"}`       | Moves the image up       |
+| `zoom_in`                   | `{"=", "+"}`          | Zooms into the image     |
+| `zoom_out`                  | `{"-", "_"}`          | Zooms out of the image   |
+| `rotate_clockwise`          | `"t"`                 | Rotates clockwise        |
+| `rotate_counterclockwise`   | `"T"`                 | Rotates counterclockwise |
+| `reset`                     | `"o"`                 | Resets the image         |
+| `rerender`                  | `"r"`                 | Rerenders the image      |
+
 
 ## 📦 Dependencies
 
