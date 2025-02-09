@@ -40,6 +40,13 @@ Use your preferred plugin manager, e.g., with lazy.nvim:
 The plugin can be configured using:
 >lua
   require'picvim'.setup({
+      filetypes = {                         -- Default filetypes
+          "png",                            -- For now only these are supported:
+          "jpg",                            -- >   PNG, JPG, JPEG, GIF, BMP
+          "jpeg",
+          "gif",                            -- No need to set these if you want to
+          "bmp",                            -- support all of these image formats.
+      }
       keymap = {
           move_left = { "<Left>", "h" },    -- Pan left
           move_right = { "<Right>", "l" },  -- Pan right
@@ -68,6 +75,13 @@ The plugin can be configured using:
   │ `reset`                   │ `"o"`              │ Resets the image         │
   │ `rerender`                │ `"r"`              │ Rerenders the image      │
   └─────────────────────────┴──────────────────┴──────────────────────────┘
+
+Filetypes defaults to:
+- `{ "png", "jpg", "jpeg", "gif", "bmp" }`
+
+- You can set custom filetypes using the `filetypes` option.
+    - The value must be a table of strings.
+    - Filetypes not in the default list will not work (They'll be ignored).
 
 ==============================================================================
 

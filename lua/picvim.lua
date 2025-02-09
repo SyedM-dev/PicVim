@@ -133,8 +133,16 @@ end
 
 function M.setup(config)
 	local opts = config or {}
+	local allowed_types = { png = true, jpg = true, jpeg = true, gif = true, bmp = true }
+	local filetypes = {}
+	for _, ft in ipairs(opts.filetypes or { "png", "jpg", "jpeg", "gif", "bmp" }) do
+		if allowed_types[ft] then
+			table.insert(filetypes, ft)
+		end
+	end
+	local formatted = "*." .. table.concat(filetypes, ",*.")
 	vim.api.nvim_create_autocmd("BufEnter", {
-		pattern = "*.png,*.jpg,*.jpeg,*.gif,*.bmp",
+		pattern = formatted,
 		callback = function()
 			if not vim.b.img then
 				vim.b.img = Image:new(vim.fn.expand("%:p"))
@@ -257,7 +265,7 @@ function M.setup(config)
 		end,
 	})
 	vim.api.nvim_create_autocmd("VimResized", {
-		pattern = "*.png,*.jpg,*.jpeg,*.gif,*.bmp",
+		pattern = formatted,
 		callback = function()
 			if not vim.b.img then
 				vim.b.img = Image:new(vim.fn.expand("%:p"))

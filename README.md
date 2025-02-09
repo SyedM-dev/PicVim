@@ -36,6 +36,7 @@ To use PicVim, simply open an image file in Neovim and the image will be display
 - Rotate the image with configurable keybindings.
 - Pan the image using arrow keys or specific keybindings.
 - Automatically scale and adjust images for optimal viewing.
+- Configure keybindings and image types to work with your liking.
 
 
 ## ⚙️  Installation
@@ -64,6 +65,13 @@ You can set custom keymaps using the `keymap` option.
 
 ```lua
 require'picvim'.setup({
+    filetypes = {                         -- Default filetypes
+        "png",                            -- For now only these are supported:
+        "jpg",                            -- >   PNG, JPG, JPEG, GIF, BMP
+        "jpeg",
+        "gif",                            -- No need to set these if you want to
+        "bmp",                            -- support all of these image formats.
+    }
     keymap = {                            -- Default keymaps
         move_left = { "<Left>", "h" },    -- Pan left
         move_right = { "<Right>", "l" },  -- Pan right
@@ -81,9 +89,9 @@ require'picvim'.setup({
 
 ## 🛠️ Autocommands
 
-The plugin automatically activates for image files (.png, .jpg, .jpeg, .gif, .bmp) upon opening. It sets the buffer to a "non-file" type to display the image correctly.
+The plugin automatically activates for image files (.png, .jpg, .jpeg, .gif, .bmp) (configured in the `filetypes` option) upon opening. It sets the buffer to a "non-file" type to display the image correctly.
 
-## ⌨️  Default Keybindings
+## ⌨️  Default Keymaps
 
 | Options within `keymap`     | Default Value         | Description              |
 |-----------------------------|-----------------------|--------------------------|
@@ -98,6 +106,14 @@ The plugin automatically activates for image files (.png, .jpg, .jpeg, .gif, .bm
 | `reset`                     | `"o"`                 | Resets the image         |
 | `rerender`                  | `"r"`                 | Rerenders the image      |
 
+## Filetypes
+
+Defaults to:
+- `{ "png", "jpg", "jpeg", "gif", "bmp" }`
+
+- You can set custom filetypes using the `filetypes` option.
+    - The value must be a table of strings that includes the file extension for the image.
+    - Filetypes not in the default list will not work (They'll be ignored).
 
 ## 📦 Dependencies
 
@@ -112,9 +128,9 @@ The plugin automatically activates for image files (.png, .jpg, .jpeg, .gif, .bm
 - [x] Support image rotation.
 - [x] Add support for non-png raster images.
 - [x] Make Keybinds configurable.
+- [x] Add config for filetypes to work with.
 - [ ] Add support for svg files.
 - [ ] Add PDF viewer.
 - [ ] Add support for gif animations.
-- [ ] Add config for filetypes to work with.
 - [ ] Expose functions to handle the images.
 
