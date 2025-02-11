@@ -18,7 +18,7 @@ PicVim is a Neovim plugin that allows you to view and manipulate images in a
 Neovim buffer. It also provides configurable key mappings for image navigation
 and manipulation.
 >lua
-  require'picvim'.setup({ keymap = { ... } })
+  require'picvim'.setup({ filetypes = { ... }, keymap = { ... } })
 <
 ==============================================================================
 
