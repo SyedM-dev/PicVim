@@ -101,4 +101,4 @@ To view this help file inside Neovim, use:
   :h picvim
 <
 ==============================================================================
-vim:tw=78:ts=4:ft=help:norl:ft=help
+vim:tw=78:ts=4:ft=help:norl

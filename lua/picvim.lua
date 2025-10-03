@@ -157,9 +157,9 @@ end
 
 function M.setup(config)
 	local opts = config or {}
-	local allowed_types = { png = true, jpg = true, jpeg = true, gif = true, bmp = true }
+	local allowed_types = { png = true, jpg = true, jpeg = true, gif = true, bmp = true, ico = true }
 	local filetypes = {}
-	for _, ft in ipairs(opts.filetypes or { "png", "jpg", "jpeg", "gif", "bmp" }) do
+	for _, ft in ipairs(opts.filetypes or { "png", "jpg", "jpeg", "gif", "bmp", "ico" }) do
 		if allowed_types[ft] then
 			table.insert(filetypes, ft)
 		end
